@@ -465,9 +465,9 @@
     <section class="container">
         <div class="team-header fade-in">
             <div class="team-logo">
-                <img src="../Logos/Shadow Blasters.jpg" alt="SB">
+                <img src="../Logos/VK18.jpg" alt="VK">
             </div>
-            <h1 class="team-name">Shadow Blasters</h1>
+            <h1 class="team-name">VK18</h1>
             <a href="../Teams.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Teams</a>
         </div>
 
@@ -672,6 +672,27 @@
     </footer>
 
     <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.innerHTML = navLinks.classList.contains('active') ?
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        const navItems = document.querySelectorAll('.nav-links a');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+                });
+            });
+        }
+        
         function openModal(modalId) {
         const modal = document.getElementById(modalId);
         if (modal) modal.style.display = 'block';
