@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Stats</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #2c5e1a;
+      --light-green: #4a9e37;
+      --dark-green: #1a3c10;
+      --primary-brown: #8b5a2b;
+      --light-brown: #c08552;
+      --dark-brown: #5e3c19;
+      --cream: #f5f5dc;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      background-color: var(--primary-green);
+      padding: 1rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 1.5rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+    }
+
+    .nav-links a:hover {
+      background-color: var(--light-green);
+    }
+
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    .section-title {
+      color: var(--primary-green);
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      margin-top: 7rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background-color: var(--primary-brown);
+    }
+
+    .stats-section {
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+      padding: 0 1rem;
+    }
+
+    .stat-category {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+      overflow-x: auto;
+    }
+
+    .stat-category h3 {
+      background-color: var(--primary-green);
+      color: white;
+      margin: 0;
+      padding: 1rem;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: var(--light-brown);
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f0f0f0;
+    }
+
+    @media screen and (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--primary-green);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.5s ease;
+        z-index: 999;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .nav-links li {
+        margin: 1.5rem 0;
+      }
+
+      .hamburger {
+        display: block;
+        z-index: 1000;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-cricket"></i>
+      Best Couple Group Cricket Tournament
+    </div>
+    <ul class="nav-links">
+      <li><a href="./index.html#home">Home</a></li>
+      <li><a href="./index.html#fixtures">Fixtures</a></li>
+      <li><a href="./index.html#points">Points Table</a></li>
+      <li><a href="./Teams.html">Teams</a></li>
+      <li><a href="./Stats.html">Stats</a></li>
+      <li><a href="./Rules.html">Rules</a></li>
+    </ul>
+    <div class="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <section class="stats-section">
+    <h2 class="section-title fade-in">Player Statistics</h2>
+
+    <div class="stat-category">
+      <h3>Most 4s</h3>
+      <table>
+        <thead><tr><th>#</th><th>Player</th><th>Team</th><th>4s</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>2</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>3</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>4</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>5</td><td>--</td><td>--</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="stat-category">
+      <h3>Most 6s</h3>
+      <table>
+        <thead><tr><th>#</th><th>Player</th><th>Team</th><th>6s</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>2</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>3</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>4</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>5</td><td>--</td><td>--</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="stat-category">
+      <h3>Most Runs</h3>
+      <table>
+        <thead><tr><th>#</th><th>Player</th><th>Team</th><th>Runs</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>2</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>3</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>4</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>5</td><td>--</td><td>--</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="stat-category">
+      <h3>Most Wickets</h3>
+      <table>
+        <thead><tr><th>#</th><th>Player</th><th>Team</th><th>Wickets</th><th>Economy</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>--</td><td>--</td><td>0</td><td>0.0</td></tr>
+          <tr><td>2</td><td>--</td><td>--</td><td>0</td><td>0.0</td></tr>
+          <tr><td>3</td><td>--</td><td>--</td><td>0</td><td>0.0</td></tr>
+          <tr><td>4</td><td>--</td><td>--</td><td>0</td><td>0.0</td></tr>
+          <tr><td>5</td><td>--</td><td>--</td><td>0</td><td>0.0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="stat-category">
+      <h3>Most Catches</h3>
+      <table>
+        <thead><tr><th>#</th><th>Player</th><th>Team</th><th>Catches</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>2</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>3</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>4</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>5</td><td>--</td><td>--</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="stat-category">
+      <h3>Most Valuable Player</h3>
+      <table>
+        <thead><tr><th>#</th><th>Player</th><th>Team</th><th>Points</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>2</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>3</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>4</td><td>--</td><td>--</td><td>0</td></tr>
+          <tr><td>5</td><td>--</td><td>--</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', function () {
+      navLinks.classList.toggle('active');
+      hamburger.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    });
+  </script>
+</body>
+</html>
