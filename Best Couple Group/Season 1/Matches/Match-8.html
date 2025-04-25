@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Match 2 - Shrey Warriors vs Thunder Titans</title>
+  <title>Match 8 - Group B 1st position vs Group A 2nd position</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { 
@@ -134,7 +134,7 @@
       body {
         padding: 20px;
         max-width: 100%;
-        margin: 0;
+        margin: 0 auto;
       }
       h1 {
         font-size: 1.5rem;
@@ -195,11 +195,11 @@
   </div>
 
   <h1>
-    <img src="../Logos/Shrey Warriors.jpg" alt="SW" class="team-logo">
-    <a href="../Team Players/Shrey Warriors Players.html">Shrey Warriors</a>
+    <img src="../Logos/" alt="" class="team-logo">
+    <a href="../Team Players/">Group B 1st position</a>
     <span style="margin: 0 5px;">vs</span>
-    <img src="../Logos/Thunder Titans.jpg" alt="TT" class="team-logo">
-    <a href="../Team Players/Thunder Titans Players.html">Thunder Titans</a>
+    <img src="../Logos/" alt="" class="team-logo">
+    <a href="../Team Players/">Group A 2nd position</a>
   </h1>
 
   <div class="toss-info">
@@ -213,8 +213,8 @@
         <label for="toss-winner">Toss Winner:</label>
         <select id="toss-winner" onchange="updateTossSelection()">
           <option value="">-- Select --</option>
-          <option value="Shrey Warriors">Shrey Warriors</option>
-          <option value="Thunder Titans">Thunder Titans</option>
+          <option value="Group B 1st position">Group B 1st position</option>
+          <option value="Group A 2nd position">Group A 2nd position</option>
         </select>
       </div>
       <div style="margin-top: 8px;">
@@ -234,14 +234,14 @@
   </div>
 
   <div id="innings-1" class="innings-section">
-    <div class="score-summary">Shrey Warriors: 0 / 0 (0.0 overs)</div>
-    <h2>Shrey Warriors Batting</h2>
+    <div class="score-summary">Group B 1st position: 0 / 0 (0.0 overs)</div>
+    <h2>Group B 1st position Batting</h2>
     <table>
       <tr><th>Batsman</th><th>Status</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>S/R</th></tr>
       <tr><td>1</td><td>Not Out</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td></tr>
       <tr><td>2</td><td>Not Out</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td></tr>
     </table>
-    <h2>Thunder Titans Bowling</h2>
+    <h2>Group A 2nd position Bowling</h2>
     <table>
       <tr><th>Bowler</th><th>O</th><th>WD</th><th>NB</th><th>R</th><th>W</th><th>Econ</th></tr>
       <tr><td>1</td><td>0.0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td></tr>
@@ -252,14 +252,14 @@
   </div>
 
   <div id="innings-2" class="innings-section" style="display: none;">
-    <div class="score-summary">Thunder Titans: 0 / 0 (0.0 overs)</div>
-    <h2>Thunder Titans Batting</h2>
+    <div class="score-summary">Group A 2nd position: 0 / 0 (0.0 overs)</div>
+    <h2>Group A 2nd position Batting</h2>
     <table>
       <tr><th>Batsman</th><th>Status</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>S/R</th></tr>
       <tr><td>1</td><td>Not Out</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td></tr>
       <tr><td>2</td><td>Not Out</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td></tr>
     </table>
-    <h2>Shrey Warriors Bowling</h2>
+    <h2>Group B 1st position Bowling</h2>
     <table>
       <tr><th>Bowler</th><th>O</th><th>WD</th><th>NB</th><th>R</th><th>W</th><th>Econ</th></tr>
       <tr><td>1</td><td>0.0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.00</td></tr>
@@ -278,7 +278,7 @@
     const OWNER_PASSWORD = "hukembolu";
 
     document.addEventListener('DOMContentLoaded', function() {
-      const savedToss = localStorage.getItem('match2Toss');
+      const savedToss = localStorage.getItem('match1Toss');
       if (savedToss) {
         const tossData = JSON.parse(savedToss);
         displayTossResult(tossData.winner, tossData.decision);
@@ -309,9 +309,12 @@
     function updateTossSelection() {
       const winner = document.getElementById('toss-winner').value;
       const decision = document.getElementById('toss-decision').value;
+      
       if (winner && decision) {
+
         const tossData = { winner, decision };
-        localStorage.setItem('match2Toss', JSON.stringify(tossData));
+        localStorage.setItem('match1Toss', JSON.stringify(tossData));
+
         displayTossResult(winner, decision);
         updateInnings(winner, decision);
       }
@@ -323,25 +326,25 @@
     }
 
     function updateInnings(winner, decision) {
-      const isSWBattingFirst = (winner === "Shrey Warriors" && decision === "Bat") || 
-                               (winner === "Thunder Titans" && decision === "Bowl");
+      const isDTBattingFirst = (winner === "Group B 1st position" && decision === "Bat") || 
+                              (winner === "Group A 2nd position" && decision === "Bowl");
 
-      if (isSWBattingFirst) {
-        document.querySelector('#innings-1 .score-summary').textContent = "Shrey Warriors: 0 / 0 (0.0 overs)";
-        document.querySelector('#innings-1 h2:nth-of-type(1)').textContent = "Shrey Warriors Batting";
-        document.querySelector('#innings-1 h2:nth-of-type(2)').textContent = "Thunder Titans Bowling";
+      if (isDTBattingFirst) {
+        document.querySelector('#innings-1 .score-summary').textContent = "Group B 1st position: 0 / 0 (0.0 overs)";
+        document.querySelector('#innings-1 h2:nth-of-type(1)').textContent = "Group B 1st position Batting";
+        document.querySelector('#innings-1 h2:nth-of-type(2)').textContent = "Group A 2nd position Bowling";
 
-        document.querySelector('#innings-2 .score-summary').textContent = "Thunder Titans: 0 / 0 (0.0 overs)";
-        document.querySelector('#innings-2 h2:nth-of-type(1)').textContent = "Thunder Titans Batting";
-        document.querySelector('#innings-2 h2:nth-of-type(2)').textContent = "Shrey Warriors Bowling";
+        document.querySelector('#innings-2 .score-summary').textContent = "Group A 2nd position: 0 / 0 (0.0 overs)";
+        document.querySelector('#innings-2 h2:nth-of-type(1)').textContent = "Group A 2nd position Batting";
+        document.querySelector('#innings-2 h2:nth-of-type(2)').textContent = "Group B 1st position Bowling";
       } else {
-        document.querySelector('#innings-1 .score-summary').textContent = "Thunder Titans: 0 / 0 (0.0 overs)";
-        document.querySelector('#innings-1 h2:nth-of-type(1)').textContent = "Thunder Titans Batting";
-        document.querySelector('#innings-1 h2:nth-of-type(2)').textContent = "Shrey Warriors Bowling";
-
-        document.querySelector('#innings-2 .score-summary').textContent = "Shrey Warriors: 0 / 0 (0.0 overs)";
-        document.querySelector('#innings-2 h2:nth-of-type(1)').textContent = "Shrey Warriors Batting";
-        document.querySelector('#innings-2 h2:nth-of-type(2)').textContent = "Thunder Titans Bowling";
+        document.querySelector('#innings-1 .score-summary').textContent = "Group A 2nd position: 0 / 0 (0.0 overs)";
+        document.querySelector('#innings-1 h2:nth-of-type(1)').textContent = "Group A 2nd position Batting";
+        document.querySelector('#innings-1 h2:nth-of-type(2)').textContent = "Group B 1st position Bowling";
+        
+        document.querySelector('#innings-2 .score-summary').textContent = "Group B 1st position: 0 / 0 (0.0 overs)";
+        document.querySelector('#innings-2 h2:nth-of-type(1)').textContent = "Group B 1st position Batting";
+        document.querySelector('#innings-2 h2:nth-of-type(2)').textContent = "Group A 2nd position Bowling";
       }
     }
 
@@ -356,6 +359,6 @@
     }
   </script>
 
-  <a href="../index.html">Back to Schedule</a>
+  <a href="../Best-Couple-Group-Tournament.html">Back to Schedule</a>
 </body>
 </html>

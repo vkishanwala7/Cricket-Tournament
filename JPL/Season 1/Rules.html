@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tournament Rules</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #2c5e1a;
+      --light-green: #4a9e37;
+      --dark-green: #1a3c10;
+      --primary-brown: #8b5a2b;
+      --light-brown: #c08552;
+      --dark-brown: #5e3c19;
+      --cream: #f5f5dc;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: #333;
+    }
+
+    .navbar {
+      background-color: var(--primary-green);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 2rem;
+    }
+
+    .language-switcher {
+      display: flex;
+      gap: 15px;
+    }
+
+    .language-btn {
+      background: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .language-btn:hover, .language-btn.active {
+      background-color: white;
+      color: var(--primary-green);
+    }
+
+    .rules-container {
+      max-width: 1000px;
+      margin: 3rem auto;
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-green);
+      margin-bottom: 2rem;
+    }
+
+    ol {
+      line-height: 1.8;
+      font-size: 1.05rem;
+      color: var(--dark-brown);
+      padding-left: 1.5rem;
+    }
+
+    ol li {
+      margin-bottom: 1rem;
+    }
+
+    li ul {
+      list-style-type: disc;
+      margin-top: 0.5rem;
+      padding-left: 1.5rem;
+    }
+
+    footer {
+      background-color: var(--dark-green);
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .language-content {
+      display: none;
+    }
+
+    .language-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-cricket"></i> Jariwala Premier League (JPL)
+    </div>
+    <div class="language-switcher">
+      <button class="language-btn active" onclick="switchLanguage('en')">English</button>
+      <button class="language-btn" onclick="switchLanguage('gu')">ગુજરાતી</button>
+    </div>
+  </nav>
+
+  <main class="rules-container">
+    <div id="en-content" class="language-content active">
+      <h1>Tournament Rules</h1>
+      <ol>
+        <li><strong>Overs:</strong> The match will consist of 7 overs per inning.</li>
+        <li><strong>Bowling:</strong> In a match, each player can bowl a maximum of 1 over.</li>
+        <li><strong>Bowling Type:</strong> Only slow/medium pace with 1 step allowed. Fast pace or more than 1 step = dead ball.</li>
+        <li><strong>Super Ball:</strong> In the last ball of every over,
+          <ul>
+            <li>Runs scored will be doubled.</li>
+            <li>Wickets lost will result in a penalty of -5 runs.</li>
+          </ul>
+        </li>
+        <li><strong>Extras:</strong> 1 run for wide/no ball. Byes count. Free hit on no ball (only run-out allowed).</li>
+        <li><strong>Bonus for U13 Boys:</strong> 1 run for side net hit without bounce. Strike unchanged.</li>
+        <li><strong>Bonus for Girls and Ladies:</strong> 
+          <ul>
+            <li>Every run they score will be doubled.</li>
+            <li>2 runs (no double) for side net hit without bounce. Strike unchanged.</li>
+          </ul>
+        </li>
+        <li><strong>Side Net Rule:</strong> If the ball hits the side net, it is considered as a bounce.</li>
+        <li><strong>Upper Net Rule:</strong> If the ball hits the upper net, it is not considered as a bounce. Catch off the upper net is valid if taken directly.</li>
+      </ol>
+    </div>
+
+    <div id="gu-content" class="language-content">
+      <h1>ટુર્નામેન્ટ નિયમો</h1>
+      <ol>
+        <li><strong>ઓવર:</strong> આ મેચમાં પ્રતિ ઇનિંગ 7 ઓવર હશે.</li>
+        <li><strong>બોલિંગ:</strong> એક મેચમાં, દરેક ખેલાડી વધુમાં વધુ 1 ઓવર નાખી શકે છે.</li>
+        <li><strong>બોલિંગનો પ્રકાર:</strong> ફક્ત ધીમી/મધ્યમ ગતિ સાથે 1 સ્ટેપ માન્ય. ઝડપી ગતિ અથવા 1 થી વધુ સ્ટેપ = ડેડ બોલ.</li>
+        <li><strong>સુપર બોલ:</strong> દરેક ઓવરના છેલ્લા બોલમાં,
+          <ul>
+            <li>બનાવેલા રન બમણા થશે.</li>
+            <li>વિકેટ ગુમાવવા પર -5 રનનો દંડ થશે.</li>
+          </ul>
+        </li>
+        <li><strong>એક્સ્ટ્રા:</strong> વાઈડ/નો બોલ માટે 1 રન. બાય ગણાશે. નો બોલ પર ફ્રી હિટ (ફક્ત રન-આઉટ માન્ય).</li>
+        <li><strong>U13 છોકરાઓ માટે બોનસ:</strong> બાઉન્સ વિના સાઇડ નેટ હિટ માટે 1 રન. સ્ટ્રાઇક બદલાયો નથી.</li>
+        <li><strong>છોકરીઓ અને મહિલાઓ માટે બોનસ:</strong> 
+          <ul>
+            <li>તેઓ જે રન બનાવે છે તે બમણા થશે.</li>
+            <li>બાઉન્સ વિના સાઇડ નેટ હિટ માટે 2 રન (ડબલ નહીં). સ્ટ્રાઇક બદલાયો નથી.</li>
+          </ul>
+        </li>
+        <li><strong>સાઇડ નેટ નિયમ:</strong> જો બોલ સાઇડ નેટ પર અથડાવે છે, તો તેને બાઉન્સ ગણવામાં આવે છે.</li>
+        <li><strong>અપર નેટ નિયમ:</strong> જો બોલ ઉપલા નેટ પર અથડાવે છે, તો તેને બાઉન્સ ગણવામાં આવતો નથી. જો ઉપરની નેટ પરથી સીધો કેચ લેવામાં આવે તો તે માન્ય ગણાશે.</li>
+      </ol>
+    </div>
+  </main>
+
+  <footer>
+    &copy; Jariwala Premier League (JPL). All rights reserved.
+  </footer>
+
+  <script>
+    function switchLanguage(lang) {
+
+      document.querySelectorAll('.language-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      event.target.classList.add('active');
+
+      document.querySelectorAll('.language-content').forEach(content => {
+        content.classList.remove('active');
+      });
+
+      document.getElementById(lang + '-content').classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

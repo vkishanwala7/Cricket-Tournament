@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teams - Cricket Tournament</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2c5e1a;
+            --light-green: #4a9e37;
+            --dark-green: #1a3c10;
+            --primary-brown: #8b5a2b;
+            --light-brown: #c08552;
+            --dark-brown: #5e3c19;
+            --cream: #f5f5dc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--cream);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .navbar {
+            background-color: var(--primary-green);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--light-green);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            color: var(--primary-green);
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary-brown);
+        }
+
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .team-logo-wrapper {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            border: 3px solid var(--primary-green);
+        }
+
+        .team-logo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark-brown);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .view-btn {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 80%;
+        }
+
+        .view-btn:hover {
+            background-color: var(--light-green);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: var(--dark-green);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+
+        .footer-logo {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--light-brown);
+            margin-bottom: 1rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--light-brown);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--light-brown);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: var(--primary-green);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: all 0.5s ease;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links li {
+                margin: 1.5rem 0;
+            }
+
+            .hamburger {
+                display: block;
+                z-index: 1000;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .teams-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-cricket"></i>
+            Best Couple Group Cricket Tournament
+        </div>
+        <ul class="nav-links">
+            <li><a href="Best-Couple-Group-Tournament#home">Home</a></li>
+            <li><a href="Best-Couple-Group-Tournament#fixtures">Fixtures</a></li>
+            <li><a href="Best-Couple-Group-Tournament#points">Points Table</a></li>
+            <li><a href="./Teams.html">Teams</a></li>
+            <li><a href="./Stats.html">Stats</a></li>
+            <li><a href="./Rules.html">Rules</a></li>
+        </ul>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <section class="container">
+        <h2 class="section-title fade-in">Our Teams</h2>
+
+        <div class="teams-grid">
+            <div class="team-card fade-in">
+                <div class="team-logo-wrapper">
+                    <img src="./Logos/Shadow Blasters.jpg" alt="Shadow Blasters">
+                </div>
+                <h3 class="team-name">Shadow Blasters</h3>
+                <a href="./Team Players/Shadow Blaster Players.html" class="view-btn">View Players</a>
+            </div>
+
+            <div class="team-card fade-in">
+                <div class="team-logo-wrapper">
+                    <img src="./Logos/VK18.jpg" alt="VK18">
+                </div>
+                <h3 class="team-name">VK18</h3>
+                <a href="./Team Players/VK18 Players.html" class="view-btn">View Players</a>
+            </div>
+
+            <div class="team-card fade-in">
+                <div class="team-logo-wrapper">
+                    <img src="./Logos/Daredevils Tushil.jpg" alt="Daredevils Tushil">
+                </div>
+                <h3 class="team-name">Daredevils Tushil</h3>
+                <a href="./Team Players/Daredevils Tushil Players.html" class="view-btn">View Players</a>
+            </div>
+
+            <div class="team-card fade-in">
+                <div class="team-logo-wrapper">
+                    <img src="./Logos/Royal Challengers Bangalore.jpg" alt="Royal Challengers Bangalore">
+                </div>
+                <h3 class="team-name">Royal Challengers Bangalore</h3>
+                <a href="./Team Players/Royal Challengers Bangalore Players.html" class="view-btn">View Players</a>
+            </div>
+
+            <div class="team-card fade-in">
+                <div class="team-logo-wrapper">
+                    <img src="./Logos/Thunder Titans.jpg" alt="Thunder Titans">
+                </div>
+                <h3 class="team-name">Thunder Titans</h3>
+                <a href="./Team Players/Thunder Titans Players.html" class="view-btn">View Players</a>
+            </div>
+
+            <div class="team-card fade-in">
+                <div class="team-logo-wrapper">
+                    <img src="./Logos/Shrey Warriors.jpg" alt="Shrey Warriors">
+                </div>
+                <h3 class="team-name">Shrey Warriors</h3>
+                <a href="./Team Players/Shrey Warriors Players.html" class="view-btn">View Players</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <div class="footer-logo">
+                    <i class="fas fa-cricket"></i>
+                    Best Couple Group Cricket Tournament
+                </div>
+                <p>Social Media Handles:</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="Best-Couple-Group-Tournament#home">Home</a></li>
+                        <li><a href="Best-Couple-Group-Tournament#fixtures">Fixtures</a></li>
+                        <li><a href="Best-Couple-Group-Tournament#points">Points Table</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>More Info</h3>
+                    <ul>
+                        <li><a href="./Stats.html">Stats</a></li>
+                        <li><a href="./Rules.html">Rules</a></li>
+                        <li><a href="./Teams.html">Teams</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; Best Couple Group Cricket Tournament. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            hamburger.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                hamburger.innerHTML = navLinks.classList.contains('active') ? 
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+        });
+    </script>
+</body>
+</html>

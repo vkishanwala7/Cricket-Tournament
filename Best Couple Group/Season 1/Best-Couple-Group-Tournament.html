@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Tournament</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2c5e1a;
+            --light-green: #4a9e37;
+            --dark-green: #1a3c10;
+            --primary-brown: #8b5a2b;
+            --light-brown: #c08552;
+            --dark-brown: #5e3c19;
+            --cream: #f5f5dc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--cream);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .navbar {
+            background-color: var(--primary-green);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--light-green);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./Background\ Image.png') center/cover no-repeat;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            margin-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/api/placeholder/100/100') repeat;
+            opacity: 0.1;
+            animation: moveBg 60s linear infinite;
+        }
+
+        @keyframes moveBg {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 100% 100%;
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .hero-btn {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .hero-btn:hover {
+            background-color: var(--light-green);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            color: var(--primary-green);
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary-brown);
+        }
+
+        .fixtures {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .fixture-header {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .fixture-filter {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .fixture-filter button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .fixture-filter button.active {
+            background-color: var(--light-green);
+        }
+
+        .fixture-list {
+            padding: 1rem;
+        }
+
+        .fixture-card {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .fixture-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .fixture-card-header {
+            background-color: var(--light-brown);
+            color: white;
+            padding: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .fixture-card-body {
+            padding: 1rem;
+        }
+
+        .teams {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .team span {
+            color: black;
+        }
+
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            overflow: hidden;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+
+        .team-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        }
+
+        .versus {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-brown);
+        }
+
+        .match-info {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+            padding: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .match-info div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .match-info span:first-child {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .match-info span:last-child {
+            font-weight: 600;
+            color: var(--dark-brown);
+        }
+
+        .points-table {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .tabs {
+            display: flex;
+            background-color: var(--primary-green);
+        }
+
+        .tab {
+            padding: 1rem;
+            color: white;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: var(--light-green);
+        }
+
+        .tab.active {
+            background-color: var(--light-green);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--light-brown);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        footer {
+            background-color: var(--dark-green);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+
+        .footer-logo {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--light-brown);
+            margin-bottom: 1rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--light-brown);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--light-brown);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .countdown-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: inline-flex;
+            gap: 1rem;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+
+        .countdown-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .match-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .match-teams {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .match-team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .team-logo-lg {
+            width: 80px;
+            height: 80px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .match-vs {
+            font-size: 2rem;
+            color: var(--primary-brown);
+            margin: 0 1rem;
+        }
+
+        .match-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .match-info-item {
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .match-info-label {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 0.3rem;
+        }
+
+        .match-info-value {
+            font-weight: bold;
+            color: var(--dark-brown);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.8;
+            }
+        }
+
+        .location {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .venue-info {
+            flex: 1;
+            text-align: center;
+        }
+
+        .venue-info a {
+            color: #5e3c19;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .venue-info :hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: var(--primary-green);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: all 0.5s ease;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links li {
+                margin: 1.5rem 0;
+            }
+
+            .hamburger {
+                display: block;
+                z-index: 1000;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .match-info {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            }
+
+            .match-info div {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.25rem;
+            justify-content: flex-start;
+            width: 100%;
+            }
+
+            .match-info span:first-child {
+            font-weight: 600;
+            color: var(--primary-green);
+            }
+
+            .match-info span:last-child {
+            color: var(--dark-brown);
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .fixture-card-header {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .teams {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .team {
+                flex-direction: row;
+            }
+
+            .match-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .match-info div {
+                flex-direction: row;
+                justify-content: left;
+                width: 100%;
+            }
+
+            .countdown-container {
+                gap: 0.5rem;
+            }
+
+            .countdown-item {
+                min-width: 50px;
+            }
+
+            .countdown-value {
+                font-size: 1.3rem;
+            }
+
+            .match-teams {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .match-vs {
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-cricket"></i>
+            Best Couple Group Cricket Tournament
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#fixtures">Fixtures</a></li>
+            <li><a href="#points">Points Table</a></li>
+            <li><a href="./Teams.html">Teams</a></li>
+            <li><a href="./Stats.html">Stats</a></li>
+            <li><a href="./Rules.html">Rules</a></li>
+        </ul>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <h1 class="fade-in">Best Couple Group Cricket Tournament</h1>
+        <p class="fade-in"></p>
+        <a href="#fixtures"><button class="hero-btn fade-in">View Matches</button></a>
+
+        <div class="countdown-container fade-in">
+            <div class="countdown-item">
+                <span class="countdown-value" id="days">00</span>
+                <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-value" id="hours">00</span>
+                <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-value" id="minutes">00</span>
+                <span class="countdown-label">Minutes</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-value" id="seconds">00</span>
+                <span class="countdown-label">Seconds</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="fixtures" class="container">
+        <h2 class="section-title fade-in">Fixtures</h2>
+
+        <div class="location fade-in">
+            <div class="venue-info">
+                <a href="https://maps.app.goo.gl/K6yeKunWvbmV7nud9">Click to get location of venue</a>
+            </div>
+        </div>
+        
+        <div class="fixtures">
+            <div class="fixture-header">
+                <h3>Match Schedule</h3>
+                <div class="fixture-filter">
+                    <button class="active" data-filter="all">All</button>
+                    <button data-filter="upcoming">Upcoming</button>
+                    <button data-filter="completed">Completed</button>
+                </div>
+            </div>
+            <div class="fixture-list">
+
+                <a href="./Matches/Match-1.html">    
+                    <div class="fixture-card fade-in" data-status="upcoming" data-match-id="1">
+                        <div class="fixture-card-header">
+                            <span>Match #1</span>
+                            <span>Group A</span>
+                        </div>
+                        <div class="fixture-card-body">
+                            <div class="teams">
+                                <div class="team">
+                                    <div class="team-logo">
+                                        <img src="./Logos/Daredevils Tushil.jpg" alt="DT">
+                                    </div>
+                                    <span>Daredevils Tushil</span>
+                                </div>
+                                <div class="versus">VS</div>
+                                <div class="team">
+                                    <div class="team-logo">
+                                        <img src="./Logos/VK18.jpg" alt="VK18">
+                                    </div>
+                                    <span>VK18</span>
+                                </div>
+                            </div>
+                            <div class="match-info">
+                                <div>
+                                    <span>Date: </span>
+                                    <span>May 17, 2025</span>
+                                </div>
+                                <div>
+                                    <span>Time: </span>
+                                    <span>19:00 IST</span>
+                                </div>
+                                <div>
+                                    <span>Venue: </span>
+                                    <span>Salasar Box Cricket</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="./Matches/Match-2.html">
+                    <div class="fixture-card fade-in" data-status="upcoming" data-match-id="2">
+                        <div class="fixture-card-header">
+                            <span>Match #2</span>
+                            <span>Group B</span>
+                        </div>
+                        <div class="fixture-card-body">
+                            <div class="teams">
+                                <div class="team">
+                                    <div class="team-logo">
+                                        <img src="./Logos/Shrey Warriors.jpg" alt="SW">
+                                    </div>
+                                    <span>Shrey Warriors</span>
+                                </div>
+                                <div class="versus">VS</div>
+                                <div class="team">
+                                    <div class="team-logo">
+                                        <img src="./Logos/Thunder Titans.jpg" alt="TT">
+                                    </div>
+                                    <span>Thunder Titans</span>
+                                </div>
+                            </div>
+                            <div class="match-info">
+                                <div>
+                                    <span>Date: </span>
+                                    <span>May 17, 2025</span>
+                                </div>
+                                <div>
+                                    <span>Time: </span>
+                                    <span>19:20 IST</span>
+                                </div>
+                                <div>
+                                    <span>Venue: </span>
+                                    <span>Salasar Box Cricket</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="./Matches/Match-3.html">
+                    <div class="fixture-card fade-in" data-status="upcoming" data-match-id="3">
+                        <div class="fixture-card-header">
+                            <span>Match #3</span>
+                            <span>Group A</span>
+                        </div>
+                        <div class="fixture-card-body">
+                            <div class="teams">
+                                <div class="team">
+                                    <div class="team-logo">
+                                        <img src="./Logos/Shadow Blasters.jpg" alt="SB">
+                                    </div>
+                                    <span>Shadow Blasters</span>
+                                </div>
+                                <div class="versus">VS</div>
+                                <div class="team"><div class="team-logo">
+                                    <img src="./Logos/Daredevils Tushil.jpg" alt="DT">
+                                </div>
+                                <span>Daredevils Tushil</span>
+                                </div>
+                            </div>
+                            <div class="match-info">
+                                <div>
+                                    <span>Date: </span>
+                                    <span>May 17, 2025</span>
+                                </div>
+                                <div>
+                                    <span>Time: </span>
+                                    <span>19:40 IST</span>
+                                </div>
+                                <div>
+                                    <span>Venue: </span>
+                                    <span>Salasar Box Cricket</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="./Matches/Match-4.html">
+                    <div class="fixture-card fade-in" data-status="upcoming" data-match-id="4">
+                        <div class="fixture-card-header">
+                            <span>Match #4</span>
+                            <span>Group B</span>
+                        </div>
+                        <div class="fixture-card-body">
+                            <div class="teams">
+                                <div class="team">
+                                    <div class="team-logo">
+                                        <img src="./Logos/Royal Challengers Bangalore.jpg" alt="RCB">
+                                    </div>
+                                    <span>Royal Challengers Bangalore</span>
+                                </div>
+                                <div class="versus">VS</div>
+                                <div class="team">
+                                    <div class="team-logo">
+                                        <img src="./Logos/Thunder Titans.jpg" alt="TT">
+                                    </div>
+                                <span>Thunder Titans</span>
+                                </div>
+                            </div>
+                            <div class="match-info">
+                                <div>
+                                    <span>Date: </span>
+                                    <span>May 17, 2025</span>
+                                </div>
+                                <div>
+                                    <span>Time: </span>
+                                    <span>20:00 IST</span>
+                                </div>
+                                <div>
+                                    <span>Venue: </span>
+                                    <span>Salasar Box Cricket</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="./Matches/Match-5.html">
+                    <div class="fixture-card fade-in" data-status="upcoming" data-match-id="5">
+                        <div class="fixture-card-header">
+                            <span>Match #5</span>
+                            <span>Group A</span>
+                        </div>
+                        <div class="fixture-card-body">
+                            <div class="teams">
+                                <div class="team">
+                                    <div class="team-logo">
+                                        <img src="./Logos/Shadow Blasters.jpg" alt="SB">
+                                    </div>
+                                    <span>Shadow Blasters</span>
+                                </div>
+                                <div class="versus">VS</div>
+                                <div class="team"><div class="team-logo">
+                                    <img src="./Logos/VK18.jpg" alt="VK18">
+                                </div>
+                                <span>VK18</span>
+                            </div>
+                        </div>
+                        <div class="match-info">
+                            <div>
+                                <span>Date: </span>
+                                <span>May 17, 2025</span>
+                            </div>
+                            <div>
+                                <span>Time: </span>
+                                <span>20:20 IST</span>
+                            </div>
+                            <div>
+                                <span>Venue: </span>
+                                <span>Salasar Box Cricket</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </a>
+
+            <a href="./Matches/Match-6.html">
+                <div class="fixture-card fade-in" data-status="upcoming" data-match-id="6">
+                    <div class="fixture-card-header">
+                        <span>Match #6</span>
+                        <span>Group B</span>
+                    </div>
+                    <div class="fixture-card-body">
+                        <div class="teams">
+                            <div class="team">
+                                <div class="team-logo">
+                                    <img src="./Logos/Royal Challengers Bangalore.jpg" alt="RCB">
+                                </div>
+                                <span>Royal Challengers Bangalore</span>
+                            </div>
+                            <div class="versus">VS</div>
+                            <div class="team"><div class="team-logo">
+                                <img src="./Logos/Shrey Warriors.jpg" alt="SW">
+                            </div>
+                            <span>Shrey Warriors</span>
+                        </div>
+                    </div>
+                    <div class="match-info">
+                        <div>
+                            <span>Date: </span>
+                            <span>May 17, 2025</span>
+                        </div>
+                        <div>
+                            <span>Time: </span>
+                            <span>20:40 IST</span>
+                        </div>
+                        <div>
+                            <span>Venue: </span>
+                            <span>Salasar Box Cricket</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </a>
+
+            <a href="./Matches/Match-7.html">
+                <div class="fixture-card fade-in" data-status="upcoming" data-match-id="7">
+                    <div class="fixture-card-header">
+                        <span>Match #7</span>
+                        <span>Semifinals - 1</span>
+                    </div>
+                    <div class="fixture-card-body">
+                        <div class="teams">
+                            <div class="team">
+                                <div class="team-logo">
+                                    <img src="./Logos/" alt="">
+                                </div>
+                                <span>Group A 1st position</span>
+                            </div>
+                            <div class="versus">VS</div>
+                            <div class="team"><div class="team-logo">
+                                <img src="./Logos/" alt="">
+                            </div>
+                            <span>Group B 2nd position</span>
+                        </div>
+                    </div>
+                    <div class="match-info">
+                        <div>
+                            <span>Date: </span>
+                            <span>May 17, 2025</span>
+                        </div>
+                        <div>
+                            <span>Time: </span>
+                            <span>21:00 IST</span>
+                        </div>
+                        <div>
+                            <span>Venue: </span>
+                            <span>Salasar Box Cricket</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </a>
+
+            <a href="./Matches/Match-8.html">
+                <div class="fixture-card fade-in" data-status="upcoming" data-match-id="8">
+                    <div class="fixture-card-header">
+                        <span>Match #8</span>
+                        <span>Semifinals - 2</span>
+                    </div>
+                    <div class="fixture-card-body">
+                        <div class="teams">
+                            <div class="team">
+                                <div class="team-logo">
+                                    <img src="./Logos/" alt="">
+                                </div>
+                                <span>Group B 1st position</span>
+                            </div>
+                            <div class="versus">VS</div>
+                            <div class="team"><div class="team-logo">
+                                <img src="./Logos/" alt="">
+                            </div>
+                            <span>Group A 2nd position</span>
+                        </div>
+                    </div>
+                    <div class="match-info">
+                        <div>
+                            <span>Date: </span>
+                            <span>May 17, 2025</span>
+                        </div>
+                        <div>
+                            <span>Time: </span>
+                            <span>21:20 IST</span>
+                        </div>
+                        <div>
+                            <span>Venue: </span>
+                            <span>Salasar Box Cricket</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </a>
+
+            <a href="./Matches/Match-9.html">
+                <div class="fixture-card fade-in" data-status="upcoming" data-match-id="9">
+                    <div class="fixture-card-header">
+                        <span>Match #9</span>
+                        <span>Finals</span>
+                    </div>
+                    <div class="fixture-card-body">
+                        <div class="teams">
+                            <div class="team">
+                                <div class="team-logo">
+                                    <img src="./Logos/" alt="">
+                                </div>
+                                <span>Match 7 Winner</span>
+                            </div>
+                            <div class="versus">VS</div>
+                            <div class="team">
+                                <div class="team-logo">
+                                    <img src="./Logos/" alt="">
+                                </div>
+                            <span>Match 8 Winner</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="match-info">
+                        <div>
+                            <span>Date: </span>
+                            <span>May 17, 2025</span>
+                        </div>
+                        <div>
+                            <span>Time: </span>
+                            <span>21:40 IST</span>
+                        </div>
+                        <div>
+                            <span>Venue: </span>
+                            <span>Salasar Box Cricket</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </a>
+        </div>
+            
+</section>
+
+<section id="points" class="container">
+    <h2 class="section-title fade-in">Points Table</h2>
+    <div class="points-table">
+        <div class="tabs">
+            <div class="tab active" data-tab="group-a">Group A</div>
+            <div class="tab" data-tab="group-b">Group B</div>
+        </div>
+
+        <div class="tab-content active" id="group-a">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Team</th>
+                            <th>Played</th>
+                            <th>Won</th>
+                            <th>Lost</th>
+                            <th>NR</th>
+                            <th>Points</th>
+                            <th>NRR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Daredevils Tushil</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0.000</td>
+                        </tr>
+                        <tr>
+                            <td>Shadow Blasters</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0.000</td>
+                        </tr>
+                        <tr>
+                            <td>VK18</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="group-b">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Team</th>
+                            <th>Played</th>
+                            <th>Won</th>
+                            <th>Lost</th>
+                            <th>NR</th>
+                            <th>Points</th>
+                            <th>NRR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Royal Challengers Bangalore</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0.000</td>
+                        </tr>
+                        <tr>
+                            <td>Shrey Warriors</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0.000</td>
+                        </tr>
+                        <tr>
+                            <td>Thunder Titans</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-column">
+            <div class="footer-logo">
+                <i class="fas fa-cricket"></i>
+                Best Couple Group Cricket Tournament
+            </div>
+            <p>Social Media Handles:</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-links">
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#fixtures">Fixtures</a></li>
+                    <li><a href="#points">Points Table</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>More Info</h3>
+                <ul>
+                    <li><a href="./Stats.html">Stats</a></li>
+                    <li><a href="./Rules.html">Rules</a></li>
+                    <li><a href="./Teams.html">Teams</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>&copy; Best Couple Group Cricket Tournament. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            hamburger.innerHTML = navLinks.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
+
+
+        const tabs = document.querySelectorAll('.tab');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+
+                tabs.forEach(t => t.classList.remove('active'));
+
+                this.classList.add('active');
+
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        const filterButtons = document.querySelectorAll('.fixture-filter button');
+        const fixtureCards = document.querySelectorAll('.fixture-card');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+
+                fixtureCards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                    } else {
+                        const status = card.getAttribute('data-status');
+                        card.style.display = status === filter ? 'block' : 'none';
+                    }
+                });
+            });
+        });
+
+        const countdownDate = new Date('May 17, 2025 19:00:00').getTime();
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerHTML = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerHTML = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerHTML = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerHTML = seconds < 10 ? '0' + seconds : seconds;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    });
+</script>
+</body>
+</html>
